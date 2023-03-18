@@ -1,0 +1,37 @@
+https://www.sreality.cz/api/en/v2/estates?
+category_main_cb = 1&
+category_sub_cb = 6|7|8|9|10|11|5|3|4&
+category_type_cb = 2&
+czk_price_summary_order2 = 0|50000&
+locality_district_id = 5005&
+locality_region_id = 10&
+ownership = 1&
+per_page = 20&
+ready_date = 2023-04-01|&
+tms = 1679005189639&
+usable_area = 30|70
+
+
+ttps://www.sreality.cz/api/en/v2/estates?category_main_cb=1&category_type_cb=2&locality_district_id=5001&locality_region_id=10&per_page=20&tms=1679005718533
+
+ttps://www.sreality.cz/api/en/v2/estates?category_main_cb=1&category_type_cb=1&per_page=20&tms=1679006188214
+https://www.sreality.cz/api/en/v2/estates?category_main_cb=1&category_type_cb=2&per_page=20&tms=1679006230212
+https://www.sreality.cz/api/en/v2/estates?category_main_cb=1&category_sub_cb=47|2|3|4|5|6|7|8|9|11|12|10&category_type_cb=2&per_page=20&tms=1679006451029
+https://www.sreality.cz/api/en/v2/estates?category_main_cb=1&category_sub_cb=12%7C2&category_type_cb=2&per_page=20&tms=167900659252
+
+
+locality_country_id=112 - should be on always
+locality_region_id=10 - should be on always
+
+estate_age - 8; how old is the advert in days
+
+
+category_main_cb - apartment(1) house(2) land(3)
+category_type_cb - sale(1) lease(2) auction(3)
+category_sub_cb - 1+kt(2), 1+1(3), 2+kt(4), 2+1(5), 3+kt(6), 3+1(7), 4+kt(8), 4+1(9), 5+kt(10), 5+1(11), 6 and more(12)
+
+czk_price_summary_order2 - min|max; max is 10000000000 by default
+ready_date - from|to; date format: '2023-03-01'
+usable_area= min|max; max is 10000000000 by default
+
+
