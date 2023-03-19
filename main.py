@@ -43,7 +43,7 @@ conv_handler = ConversationHandler(
 
 if __name__ == '__main__':
 
-    application = ApplicationBuilder().token('5672439696:AAHhpGEv1tzGY8gFAI9vbsG2sdUwJml0ga0').build()
+    application = ApplicationBuilder().token('5672439696:AAHKr37nDhERNhQZQMjiPplFC_Z0fK5tRuo').build()
     
     application.add_handler(CommandHandler("filters", filters))
     
