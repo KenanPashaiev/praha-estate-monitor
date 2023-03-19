@@ -56,33 +56,6 @@ def filterToParams(monitoringFilters: MonitoringFilters):
         "usable_area": str(monitoringFilters.minArea) + "|" + str(monitoringFilters.maxArea),
     }
 
-def layoutToParams(layout):
-    layoutParams = ""
-    if layout in LayoutFilter.L1_KT:
-        layoutParams += "2|"
-    if layout in LayoutFilter.L2_KT:
-        layoutParams += "4|"
-    if layout in LayoutFilter.L3_KT:
-        layoutParams += "6|"
-    if layout in LayoutFilter.L4_KT:
-        layoutParams += "8|"
-    if layout in LayoutFilter.L5_KT:
-        layoutParams += "10|"
-    if layout in LayoutFilter.L1_1:
-        layoutParams += "3|"
-    if layout in LayoutFilter.L2_1:
-        layoutParams += "5|"
-    if layout in LayoutFilter.L3_1:
-        layoutParams += "7|"
-    if layout in LayoutFilter.L4_1:
-        layoutParams += "9|"
-    if layout in LayoutFilter.L5_1:
-        layoutParams += "11|"
-    if layout in LayoutFilter.L6_1:
-        layoutParams += "12|"
-
-    return layoutParams[:-1] if len(layoutParams) > 0 else ""
-
 def getEstateDescription(estate):
     text = ""
     text += "*%(name)s*\n"% estate

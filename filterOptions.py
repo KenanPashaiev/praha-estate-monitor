@@ -1,4 +1,4 @@
-from telegram import InlineKeyboardButton
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 from entities.chatData import *
 from operations.chatOperations import *
 from operations.filterOperations import *
@@ -7,7 +7,7 @@ from filters.districtFilter import DistrictFilter
 from filters.offerTypeFilter import OfferTypeFilter
 from filters.estateTypeFilter import EstateTypeFilter
 
-def getLayoutOptions(chatId: int):
+def getLayoutKeyboardMarkup(chatId: int) -> InlineKeyboardMarkup:
     filters = getFiltersForChat(chatId)
 
     arr = [
@@ -19,9 +19,9 @@ def getLayoutOptions(chatId: int):
         [ LayoutFilter.L6_1 ],
     ]
     
-    return applyOptions(arr, filters.layout)
+    return InlineKeyboardMarkup(applyOptions(arr, filters.layout))
 
-def getDistrictOptions(chatId):
+def getDistrictKeyboardMarkup(chatId: int) -> InlineKeyboardMarkup:
     filters = getFiltersForChat(chatId)
 
     arr = [
@@ -32,9 +32,9 @@ def getDistrictOptions(chatId):
         [ DistrictFilter.Praha_9, DistrictFilter.Praha_10 ]
     ]
 
-    return applyOptions(arr, filters.district)
+    return InlineKeyboardMarkup(applyOptions(arr, filters.district))
     
-def getOfferTypeOptions(chatId):
+def getOfferTypeKeyboardMarkup(chatId: int) -> InlineKeyboardMarkup:
     filters = getFiltersForChat(chatId)
 
     arr = [
@@ -43,9 +43,9 @@ def getOfferTypeOptions(chatId):
         [ OfferTypeFilter.AUCTION ]
     ]
 
-    return applyOptions(arr, filters.offerType)
+    return InlineKeyboardMarkup(applyOptions(arr, filters.offerType))
 
-def getEstateTypeOptions(chatId):
+def getEstateTypeKeyboardMarkup(chatId: int) -> InlineKeyboardMarkup:
     filters = getFiltersForChat(chatId)
 
     arr = [
@@ -54,11 +54,11 @@ def getEstateTypeOptions(chatId):
         [ EstateTypeFilter.LAND ]
     ]
 
-    return applyOptions(arr, filters.type)
+    return InlineKeyboardMarkup(applyOptions(arr, filters.type))
 
 
 #private
-def applyOptions(arr, currentFilterValue):
+def applyOptions(arr, currentFilterValue: int) -> InlineKeyboardMarkup:
     options = arr
     for i, subArr in enumerate(options):
         for j, item in enumerate(subArr):
@@ -67,7 +67,7 @@ def applyOptions(arr, currentFilterValue):
     return options
 
 
-def getOption(filterOption, currentValue):
+def getOption(filterOption, currentValue) -> InlineKeyboardButton:
     text = filterOption.toString() + (" ☑️" if currentValue.equalOrContains(filterOption) else "")
 
     return InlineKeyboardButton(text = text, callback_data = filterOption.label()+str(filterOption))

@@ -1,7 +1,7 @@
 import logging
 
 from entities.chatData import ChatData
-from ioUtils import writeData, readFromFile
+from utils.ioUtils import writeData, readFromFile
 
 def startNewChat(chatId: int):
     existingChatData = getChatData(chatId)

@@ -6,6 +6,9 @@ from filters.layoutFilter import LayoutFilter
 from filters.offerTypeFilter import OfferTypeFilter
 from operations.chatOperations import getChatData, updateChatData
 from entities.monitoringFilters import MonitoringFilters
+from ranges.priceRange import PriceRange
+from ranges.areaRange import AreaRange
+from ranges.moveInDateRange import MoveInDateRange
 
 def getFiltersForChat(chatId: int) -> MonitoringFilters:
     chatData = getChatData(chatId)
@@ -33,33 +36,17 @@ def toggleEstateType(chatId: int, estateType: EstateTypeFilter):
     updateChatData(chatId, chatData)
 
 
-def setMoveInDateForChat(chatId: int, moveInDateText: str) -> bool:
+def updatePriceForChat(chatId: int, priceRange: PriceRange):
     chatData = getChatData(chatId)
-
-    splittedString = moveInDateText.split('-')
-    try:
-        chatData.monitoringFilters.moveInDateFrom = datetime.strptime(splittedString[0], '%d.%m.%y') if not splittedString[0].isspace() else None
-        chatData.monitoringFilters.moveInDateTo = datetime.strptime(splittedString[1], '%d.%m.%y') if not splittedString[0].isspace() else None
-    except:
-        return False
-
-    updateChatData(chatId, chatData)
-    return True
-
-def setPriceForChat(chatId: int, priceText: str):
-    chatData = getChatData(chatId)
-    
-    splittedString = priceText.split('-')
-    chatData.monitoringFilters.minPrice = int(splittedString[0]) if not splittedString[0].isspace() else 0
-    chatData.monitoringFilters.maxPrice = int(splittedString[1]) if not splittedString[1].isspace() else 10000000
-
+    chatData.monitoringFilters.priceRange = priceRange
     updateChatData(chatId, chatData)
 
-def setAreaForChat(chatId: int, areaText: str):
+def updateAreaForChat(chatId: int, areaRange: AreaRange):
     chatData = getChatData(chatId)
+    chatData.monitoringFilters.areaRange = areaRange
+    updateChatData(chatId, chatData)
 
-    splittedString = areaText.split('-')
-    chatData.monitoringFilters.minArea = int(splittedString[0]) if not splittedString[0].isspace() else 0
-    chatData.monitoringFilters.maxArea = int(splittedString[1]) if not splittedString[1].isspace() else 10000000
-
+def updateMoveInDateForChat(chatId: int, moveInDateRange: MoveInDateRange):
+    chatData = getChatData(chatId)
+    chatData.monitoringFilters.moveInDateRange = moveInDateRange
     updateChatData(chatId, chatData)
