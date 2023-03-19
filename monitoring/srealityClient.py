@@ -3,7 +3,6 @@ import requests
 from telegram import InputMediaPhoto
 from entities.monitoringFilters import MonitoringFilters
 
-from filters.layoutFilter import LayoutFilter
 from operations.chatOperations import markEstateForChat, estateIsMarkedForChat
 
 # api-endpoint
@@ -48,7 +47,7 @@ def filterToParams(monitoringFilters: MonitoringFilters):
         "locality_country_id": 112,
         "locality_region_id": 10,
         "estate_age": 8,
-        "category_main_cb": int(monitoringFilters.type),
+        "category_main_cb": int(monitoringFilters.estateType),
         "category_type_cb": int(monitoringFilters.offerType),
         "category_sub_cb": monitoringFilters.layout.toParams(),
         "locality_district_id": monitoringFilters.district.toParams(),

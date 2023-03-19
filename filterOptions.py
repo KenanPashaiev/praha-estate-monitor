@@ -1,5 +1,4 @@
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
-from entities.chatData import *
 from operations.chatOperations import *
 from operations.filterOperations import *
 from filters.layoutFilter import LayoutFilter
@@ -54,7 +53,7 @@ def getEstateTypeKeyboardMarkup(chatId: int) -> InlineKeyboardMarkup:
         [ EstateTypeFilter.LAND ]
     ]
 
-    return InlineKeyboardMarkup(applyOptions(arr, filters.type))
+    return InlineKeyboardMarkup(applyOptions(arr, filters.estateType))
 
 
 #private

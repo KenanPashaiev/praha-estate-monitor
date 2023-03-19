@@ -9,6 +9,7 @@ from handlers.states import *
 from ranges.priceRange import PriceRange
 from ranges.areaRange import AreaRange
 from ranges.moveInDateRange import MoveInDateRange
+from ranges.moveInDateRange import MoveInDateRange
 
 # logging.basicConfig(
 #     # filename="logs.txt",

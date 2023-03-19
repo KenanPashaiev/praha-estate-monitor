@@ -1,18 +1,19 @@
 import pickle
-
-from entities.chatData import *
+import sys
 
 fname = "data.pkl"
 
 def readFromFile():
     global fname
     
+    sys.path.append('entities')
+    
     data = []
     try:
         with open(fname, "rb") as f:
             data = pickle.load(f)
 
-    except IOError:
+    except Exception as e:
         pass
 
     return data
@@ -22,3 +23,4 @@ def writeData(data):
 
     with open(fname, "wb") as f:
         pickle.dump(data, f)
+        f.close()

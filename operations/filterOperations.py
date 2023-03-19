@@ -1,4 +1,3 @@
-import datetime
 from filters.districtFilter import DistrictFilter
 from filters.estateTypeFilter import EstateTypeFilter
 
@@ -17,7 +16,7 @@ def getFiltersForChat(chatId: int) -> MonitoringFilters:
 
 def toggleLayoutCheckbox(chatId: int, layout: LayoutFilter):
     chatData = getChatData(chatId)
-    chatData.monitoringFilters.layout = chatData.monitoringFilters.layout ^ layout
+    chatData.monitoringFilters.layout = chatData.monitoringFilters.layout ^ layout 
     updateChatData(chatId, chatData)
 
 def toggleDistrictCheckbox(chatId: int, district: DistrictFilter):
@@ -32,7 +31,7 @@ def toggleOfferType(chatId: int, offerType: OfferTypeFilter):
 
 def toggleEstateType(chatId: int, estateType: EstateTypeFilter):
     chatData = getChatData(chatId)
-    chatData.monitoringFilters.type = estateType
+    chatData.monitoringFilters.estateType = estateType
     updateChatData(chatId, chatData)
 
 
