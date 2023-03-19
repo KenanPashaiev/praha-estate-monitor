@@ -1,20 +1,24 @@
 import pickle
-import logging
 
-from chatData import *
+from entities.chatData import *
 
-def readFromFile(path):
+fname = "data.pkl"
+
+def readFromFile():
+    global fname
+    
     data = []
     try:
-        with open(path, "rb") as f:
+        with open(fname, "rb") as f:
             data = pickle.load(f)
 
     except IOError:
-        # may complain to user as well
         pass
 
     return data
 
-def writeData(path, data):
-    with open(path, "wb") as f:
+def writeData(data):
+    global fname
+
+    with open(fname, "wb") as f:
         pickle.dump(data, f)

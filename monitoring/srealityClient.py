@@ -1,8 +1,10 @@
+import logging
 import requests
 from telegram import InputMediaPhoto
+from entities.monitoringFilters import MonitoringFilters
 
-from layoutFilter import LayoutFilter
-from chatOperations import markEstateForChat, estateIsMarkedForChat
+from filters.layoutFilter import LayoutFilter
+from operations.chatOperations import markEstateForChat, estateIsMarkedForChat
 
 # api-endpoint
 URL = "https://www.sreality.cz/api/ru/v2/estates"
@@ -15,17 +17,17 @@ async def fetchEstates(context, chatId, filters):
     r = requests.get(url=URL, params=PARAMS)
 
     #return
-    print("Fetching estates " + r.url)
+    logging.log(logging.INFO, f"Fetching estates {r.url}")
     # extracting data in json format
     data = r.json()
     unmarkedItems = [item for item in data["_embedded"]["estates"] if not estateIsMarkedForChat(chatId, item["hash_id"])]
-    print(str(len(data["_embedded"]["estates"])) + " found estates, unmarked: " + str(len(unmarkedItems)))
+    logging.log(logging.INFO, str(len(data["_embedded"]["estates"])) + " found estates, unmarked: " + str(len(unmarkedItems)))
     for estate in unmarkedItems[:2]:
         await notifyChat(context, chatId, estate)
 
 
 async def notifyChat(context, chatId, estate):
-    print(str(estate["hash_id"]) + " estate notification was sent to " + str(chatId))
+    logging.log(logging.INFO, str(estate["hash_id"]) + " estate notification was sent to " + str(chatId))
     text = getEstateDescription(estate)
 
     details = requests.get(url=URL+"/%(hash_id)s"% estate).json()
@@ -39,16 +41,17 @@ async def notifyChat(context, chatId, estate):
 
     await context.bot.send_media_group(chat_id = chatId, media = media_group)
     markEstateForChat(chatId, estate["hash_id"])
-    print(str(estate["hash_id"]) + " estate was marked for chat " + str(chatId))
+    logging.log(logging.INFO, str(estate["hash_id"]) + " estate was marked for chat " + str(chatId))
 
-def filterToParams(monitoringFilters):
+def filterToParams(monitoringFilters: MonitoringFilters):
     return {
         "locality_country_id": 112,
         "locality_region_id": 10,
         "estate_age": 8,
         "category_main_cb": int(monitoringFilters.type),
         "category_type_cb": int(monitoringFilters.offerType),
-        "category_sub_cb": layoutToParams(monitoringFilters.layout),
+        "category_sub_cb": monitoringFilters.layout.toParams(),
+        "locality_district_id": monitoringFilters.district.toParams(),
         "czk_price_summary_order2": str(monitoringFilters.minPrice) + "|" + str(monitoringFilters.maxPrice),
         "usable_area": str(monitoringFilters.minArea) + "|" + str(monitoringFilters.maxArea),
     }

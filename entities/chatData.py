@@ -1,6 +1,4 @@
-import json
-
-from monitoringFilters import MonitoringFilters
+from entities.monitoringFilters import MonitoringFilters
 
 class ChatData:
     def __init__(self, chatId = "", monitoringFilters = MonitoringFilters(), properties = []):

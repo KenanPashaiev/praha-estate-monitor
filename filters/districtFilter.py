@@ -12,14 +12,26 @@ class DistrictFilter(IntFlag):
     Praha_9 = auto()
     Praha_10 = auto()
 
-    def toString(self):
+    def toString(self) -> str:
+        if self.name == None:
+            return ''
+
         result = self.name
         result = result.replace('|', ', ')
         result = result.replace('_', ' ')
         return result
     
-    def toParams(self):
+    def toParams(self) -> str:
+        if self.name == None:
+            return ''
+
         result = self.name
         result = result.replace('Praha_10', '5010')
         result = result.replace('Praha_', '500')
         return result
+    
+    def equalOrContains(self, value):
+        return value in self
+    
+    def label(self = None):
+        return "Districts"

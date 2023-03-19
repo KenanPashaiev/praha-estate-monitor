@@ -1,9 +1,8 @@
 from telegram.ext import ApplicationBuilder, CommandHandler, CallbackQueryHandler, MessageHandler, ConversationHandler, filters as Filters
 
-from baseHandlers import *
-from callbackHandlers import *
-from monitoring import *
-from srealityClient import *
+from handlers.baseHandlers import *
+from handlers.callbackHandlers import *
+from monitoring.monitoring import *
 
 # logging.basicConfig(
 #     # filename="logs.txt",
@@ -39,10 +38,10 @@ if __name__ == '__main__':
     
     application.add_handler(CommandHandler("filters", filters))
     
-    application.add_handler(CallbackQueryHandler(propertyTypeSelectCallback, "propertyType"))
-    application.add_handler(CallbackQueryHandler(offerTypeSelectCallback, "offerType"))
-    application.add_handler(CallbackQueryHandler(layoutSelectCallback, "layout"))
-    application.add_handler(CallbackQueryHandler(districtSelectCallback, "district"))
+    application.add_handler(CallbackQueryHandler(estateTypeSelectCallback, EstateTypeFilter.label()))
+    application.add_handler(CallbackQueryHandler(offerTypeSelectCallback, OfferTypeFilter.label()))
+    application.add_handler(CallbackQueryHandler(layoutSelectCallback, LayoutFilter.label()))
+    application.add_handler(CallbackQueryHandler(districtSelectCallback, DistrictFilter.label()))
 
     application.add_handler(conv_handler)
 

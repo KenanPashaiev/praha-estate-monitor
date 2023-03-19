@@ -1,5 +1,7 @@
 from enum import auto, IntFlag
 
+layoutFilterName = "Layout"
+
 class LayoutFilter(IntFlag):
     L1_KT = auto()
     L1_1 = auto()
@@ -13,8 +15,7 @@ class LayoutFilter(IntFlag):
     L5_1 = auto()
     L6_1 = auto()
 
-    def toString(self):
-        print(self.toParams())
+    def toString(self) -> str:
         if self.name == None:
             return ''
 
@@ -25,15 +26,13 @@ class LayoutFilter(IntFlag):
         result = result.replace('|', ', ')
         return result.lower()
     
-    def toParams(self):
+    def toParams(self) -> str:
         if self.name == None:
             return ''
 
         flagValues = LayoutFilter._member_names_
         values = [member for member in LayoutFilter._member_names_ if member in self.name]
         result = []
-        print(flagValues)
-        print(values)
 
         for value in values:
             result.append(str(flagValues.index(value) + 2))
@@ -41,3 +40,8 @@ class LayoutFilter(IntFlag):
         result = '|'.join(result)
         return result
     
+    def equalOrContains(self, value):
+        return value in self
+    
+    def label(self = None):
+        return "Layout"

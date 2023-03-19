@@ -1,28 +1,16 @@
-import logging
 import re
-from telegram import Update
+import logging
+from telegram import Update, InlineKeyboardMarkup
 from telegram.ext import ContextTypes
-from telegram import InlineKeyboardMarkup, ReplyKeyboardMarkup
 
-from telegramStylingScripts import *
-from chatOperations import *
+from filterOptions import *
+from operations.chatOperations import *
+from operations.filterOperations import *
+from markupHandlers.replyKeyboardMarkups import *
 
 FILTERS, SETMOVEINDATE, SETPRICE, SETAREA, MONITORING = range(5)
 
-startMonitoringMessageText = "Cancel"
-stopMonitoringMessageText = "Cancel"
-cancelMessageText = "Cancel"
-
-filterReplyMarkup = ReplyKeyboardMarkup([
-    ["Start monitoring"],
-    [ "Estate type", "Offer type"],
-    [ "Layout", "Districts" ], 
-    ["Price range", "Area", "Move in dates"]
-    ], resize_keyboard=True)
-
-cancelReplyMarkup = ReplyKeyboardMarkup([[cancelMessageText]], resize_keyboard=True)
-
-async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     logging.log(logging.INFO, "User with ID "+str(update.effective_chat.id)+" started interacting with the bot")
     startNewChat(str(update.effective_chat.id))
     await context.bot.send_message(chat_id=update.effective_chat.id,
@@ -35,9 +23,9 @@ async def help(update: Update, context: ContextTypes.DEFAULT_TYPE):
     logging.log(logging.INFO, "User with ID "+str(update.effective_chat.id)+" is settings filters")
     await context.bot.send_message(chat_id=update.effective_chat.id,
                                    text="Your current filters are following:\n"+
-                                   "/offerType - Property operation type. Values: ['sale', 'rent', 'auction']\n" +
-                                   "/type - Property type. Values: ['apartment', 'house', 'land']\n" +
-                                   "/layout - Layout of the property, for example: '3+kt, 3+1, 4+kt, 4+1'\n" +
+                                   "/offerType - Estate operation type. Values: ['sale', 'rent', 'auction']\n" +
+                                   "/type - Estate type. Values: ['apartment', 'house', 'land']\n" +
+                                   "/layout - Layout of the estate, for example: '3+kt, 3+1, 4+kt, 4+1'\n" +
                                    "/location, for example: 'Praha 1, Praha 2, Czechia'\n" +
                                    "/minPrice, for example: '15000-25000', '-25000'\n" +
                                    "/maxPrice, for example: '15000-25000', '-25000'\n" +
@@ -61,7 +49,7 @@ async def filters(update: Update, context: ContextTypes.DEFAULT_TYPE):
                                    , parse_mode='markdown')
     
 async def layout(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    keyboard = styleLayoutInlineButtons(update.effective_chat.id)
+    keyboard = getLayoutOptions(update.effective_chat.id)
     reply_markup = InlineKeyboardMarkup(keyboard)
 
     logging.log(logging.INFO, "User with ID "+str(update.effective_chat.id)+" is selecting layout")
@@ -69,7 +57,7 @@ async def layout(update: Update, context: ContextTypes.DEFAULT_TYPE):
                                    text="Select layout", reply_markup=reply_markup)
     
 async def district(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    keyboard = styleDistrictInlineButtons(update.effective_chat.id)
+    keyboard = getDistrictOptions(update.effective_chat.id)
     reply_markup = InlineKeyboardMarkup(keyboard)
 
     logging.log(logging.INFO, "User with ID "+str(update.effective_chat.id)+" is selecting district")
@@ -77,7 +65,7 @@ async def district(update: Update, context: ContextTypes.DEFAULT_TYPE):
                                    text="Select district", reply_markup=reply_markup)
     
 async def offerType(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    keyboard = styleOfferTypeInlineButtons(update.effective_chat.id)
+    keyboard = getOfferTypeOptions(update.effective_chat.id)
     reply_markup = InlineKeyboardMarkup(keyboard)
 
     logging.log(logging.INFO, "User with ID "+str(update.effective_chat.id)+" is selecting operation type")
@@ -86,12 +74,12 @@ async def offerType(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def type(update: Update, context: ContextTypes.DEFAULT_TYPE):
     chatId = update.effective_chat.id
-    keyboard = stylePropertyTypeInlineButtons(chatId)
+    keyboard = getEstateTypeOptions(chatId)
     reply_markup = InlineKeyboardMarkup(keyboard)
 
-    logging.log(logging.INFO, "User with ID "+str(chatId)+" is selecting property type")
+    logging.log(logging.INFO, "User with ID "+str(chatId)+" is selecting estate type")
     await context.bot.send_message(chat_id=chatId, 
-                                   text="Select property type\n", reply_markup=reply_markup)
+                                   text="Select estate type\n", reply_markup=reply_markup)
 
 
 

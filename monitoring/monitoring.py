@@ -1,10 +1,9 @@
 import asyncio
-import threading
 
-from baseHandlers import *
-from chatOperations import *
-from layoutFilter import *
-from srealityClient import *
+from handlers.baseHandlers import *
+from operations.filterOperations import *
+from filters.layoutFilter import *
+from monitoring.srealityClient import *
 
 tasks = {}
 
@@ -15,7 +14,7 @@ async def startMonitoring(update: Update, context: ContextTypes.DEFAULT_TYPE):
     chatId = update.effective_chat.id
     monitoringFilters = getFiltersForChat(chatId)
     tasks[chatId] = asyncio.get_event_loop().create_task(monitorProperties(context, chatId, monitoringFilters))
-    print("Started monitoring")
+    logging.log(logging.INFO, "Started monitoring")
 
     await context.bot.send_message(chat_id=chatId, 
                                    text="Started monitoring\n", 
