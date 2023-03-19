@@ -1,2 +1,2 @@
-[phases.build]
+[phases.setup]
 cmds = ["apt-get install python-dev python-pip gcc", "apt-get install python-dev python-pip gcc"]
