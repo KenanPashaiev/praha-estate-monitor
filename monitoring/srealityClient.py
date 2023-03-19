@@ -10,7 +10,6 @@ URL = "https://www.sreality.cz/api/ru/v2/estates"
 
 async def fetchEstates(context, chatId, filters):
     PARAMS = filterToParams(filters)
-    print("kavo")
     # sending get request and saving the response as response object
     r = requests.get(url=URL, params=PARAMS)
 

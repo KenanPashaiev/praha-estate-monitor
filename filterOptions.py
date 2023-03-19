@@ -69,5 +69,5 @@ def applyOptions(arr, currentFilterValue: int) -> InlineKeyboardMarkup:
 def getOption(filterOption, currentValue) -> InlineKeyboardButton:
     text = filterOption.toString() + (" ☑️" if currentValue.equalOrContains(filterOption) else "")
 
-    return InlineKeyboardButton(text = text, callback_data = filterOption.label()+str(filterOption))
+    return InlineKeyboardButton(text = text, callback_data = filterOption.label()+str(int(filterOption)))
 

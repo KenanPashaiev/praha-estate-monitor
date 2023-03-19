@@ -1,12 +1,9 @@
 import pickle
-import sys
 
 fname = "data.pkl"
 
 def readFromFile():
     global fname
-    
-    sys.path.append('entities')
     
     data = []
     try:
