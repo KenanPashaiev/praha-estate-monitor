@@ -2,7 +2,7 @@
     "$schema": "https://railway.app/railway.schema.json",
     "build": {
       "builder": "NIXPACKS",
-      "buildCommand": "echo building!"
+      "buildCommand": " apt-get install python-dev python-pip gcc"
     },
     "deploy": {
       "restartPolicyType": "ON_FAILURE",
