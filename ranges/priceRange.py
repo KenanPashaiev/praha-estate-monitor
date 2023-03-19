@@ -21,10 +21,7 @@ class PriceRange:
                 "'10000-' to specify only min. \n"+
                 "'-35000' to specify only max.")
     
-    def toString(self) -> str:
-        minPriceStr = self.minPrice if self.minPrice > self.defaultMinPrice else ""
-        maxPriceStr = self.maxPrice if self.maxPrice < self.defaultMaxPrice else ""
-        return f"{minPriceStr} - {maxPriceStr}"
+    
     
     def isValidString(str: str) -> bool:
         if not "-" in str:
@@ -35,6 +32,16 @@ class PriceRange:
         pattern = re.compile("^(\d+)?-?(\d+)?$")
         return pattern.fullmatch(validatedStr)
     
+    def toString(self) -> str:
+        minPriceStr = self.minPrice if self.minPrice > self.defaultMinPrice else ""
+        maxPriceStr = self.maxPrice if self.maxPrice < self.defaultMaxPrice else ""
+        return f"{minPriceStr} - {maxPriceStr}"
+    
+    def toParams(self) -> str:
+        minPriceStr = self.minPrice if self.minPrice > self.defaultMinPrice else self.defaultMinPrice
+        maxPriceStr = self.maxPrice if self.maxPrice < self.defaultMaxPrice else self.defaultMaxPrice
+        return f"{minPriceStr}|{maxPriceStr}"
+
     def toRange(str: str):
         splittedString = str.replace(" ", "").split('-')
         minPrice = int(splittedString[0]) if splittedString[0] != "" else PriceRange.defaultMinPrice

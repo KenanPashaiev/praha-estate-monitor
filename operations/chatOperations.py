@@ -1,5 +1,4 @@
 import logging
-from pprint import pprint
 
 from entities.chatData import ChatData
 from utils.ioUtils import writeData, readFromFile
@@ -15,7 +14,7 @@ def startNewChat(chatId: int):
 def markEstateForChat(chatId: int, estateId: int):
     chatData = getChatData(chatId)
     chatData.properties.append(estateId)
-    updateChatData(chatData)
+    updateChatData(chatId, chatData)
 
 def estateIsMarkedForChat(chatId: int, estateId: int) -> bool:
     chatData = getChatData(chatId)
@@ -29,7 +28,7 @@ def getChatData(chatId: int) -> ChatData:
     chatData = None
     for item in data:
         if item.chatId == str(chatId):
-            logging.log(logging.INFO, f"Chat {str(chatId)} found, loading.")
+            # logging.log(logging.INFO, f"Chat '{str(chatId)}' found, loading.")
             chatData = item
 
     return chatData

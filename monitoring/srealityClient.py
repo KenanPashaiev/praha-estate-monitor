@@ -10,8 +10,7 @@ URL = "https://www.sreality.cz/api/ru/v2/estates"
 
 async def fetchEstates(context, chatId, filters):
     PARAMS = filterToParams(filters)
-
-
+    print("kavo")
     # sending get request and saving the response as response object
     r = requests.get(url=URL, params=PARAMS)
 
@@ -51,8 +50,9 @@ def filterToParams(monitoringFilters: MonitoringFilters):
         "category_type_cb": int(monitoringFilters.offerType),
         "category_sub_cb": monitoringFilters.layout.toParams(),
         "locality_district_id": monitoringFilters.district.toParams(),
-        "czk_price_summary_order2": str(monitoringFilters.minPrice) + "|" + str(monitoringFilters.maxPrice),
-        "usable_area": str(monitoringFilters.minArea) + "|" + str(monitoringFilters.maxArea),
+        "czk_price_summary_order2": monitoringFilters.priceRange.toParams(),
+        "usable_area": monitoringFilters.areaRange.toParams(),
+        "ready_date": monitoringFilters.moveInDateRange.toParams(),
     }
 
 def getEstateDescription(estate):

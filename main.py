@@ -11,18 +11,19 @@ from ranges.areaRange import AreaRange
 from ranges.moveInDateRange import MoveInDateRange
 from ranges.moveInDateRange import MoveInDateRange
 
-# logging.basicConfig(
-#     # filename="logs.txt",
-#     # filemode='a',
-#     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-#     datefmt='%H:%M:%S',
-#     level=logging.INFO
-# )
+logging.basicConfig(
+    # filename="logs.txt",
+    # filemode='a',
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    datefmt='%H:%M:%S',
+    level=logging.INFO
+)
 
 conv_handler = ConversationHandler(
         entry_points=[CommandHandler("start", start)],
         states={
-            FILTERS: [MessageHandler(Filters.Regex("Current filters"), filters),
+            FILTERS: [
+                    MessageHandler(Filters.Regex("Current filters"), filters),
                     MessageHandler(Filters.Regex("Estate type"), estateTypeOptions),
                     MessageHandler(Filters.Regex("Offer type"), offerType),
                     MessageHandler(Filters.Regex("Layout"), layout),
@@ -30,7 +31,8 @@ conv_handler = ConversationHandler(
                     MessageHandler(Filters.Regex(PriceRange.label()), pricePrompt),
                     MessageHandler(Filters.Regex(AreaRange.label()), areaPrompt),
                     MessageHandler(Filters.Regex(MoveInDateRange.label()), moveInDatePrompt),
-                    MessageHandler(Filters.Regex("Start monitoring"), startMonitoring)],
+                    MessageHandler(Filters.Regex("Start monitoring"), startMonitoring)
+                    ],
             SETPRICE: [MessageHandler(Filters.TEXT, priceReply)],
             SETMOVEINDATE: [MessageHandler(Filters.TEXT, moveInDateReply)],
             SETAREA: [MessageHandler(Filters.TEXT, areaReply)],

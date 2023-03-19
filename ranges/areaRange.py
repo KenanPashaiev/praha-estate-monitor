@@ -21,11 +21,6 @@ class AreaRange:
                 "'45 -' to specify only min. \n"+
                 "'- 80' to specify only max.")
     
-    def toString(self) -> str:
-        minAreaStr = self.minArea if self.minArea > self.defaultMinArea else ""
-        maxAreaStr = self.maxArea if self.maxArea < self.defaultMaxArea else ""
-        return f"{minAreaStr} - {maxAreaStr}"
-    
     def isValidString(str: str) -> bool:
         if not "-" in str:
             return False
@@ -34,6 +29,16 @@ class AreaRange:
 
         pattern = re.compile("^(\d+)?-?(\d+)?$")
         return pattern.fullmatch(validatedStr)
+    
+    def toString(self) -> str:
+        minAreaStr = self.minArea if self.minArea > self.defaultMinArea else ""
+        maxAreaStr = self.maxArea if self.maxArea < self.defaultMaxArea else ""
+        return f"{minAreaStr} - {maxAreaStr}"
+    
+    def toParams(self) -> str:
+        minAreaStr = self.minArea if self.minArea > self.defaultMinArea else self.defaultMinArea
+        maxAreaStr = self.maxArea if self.maxArea < self.defaultMaxArea else self.defaultMaxArea
+        return f"{minAreaStr}|{maxAreaStr}"
     
     def toRange(str: str):
         splittedString = str.replace(" ", "").split('-')

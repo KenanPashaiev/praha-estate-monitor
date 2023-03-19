@@ -23,11 +23,6 @@ class MoveInDateRange:
                 "'01.03.2023 -' to specify only from date. \n"+
                 "'- 01.05.2023' to specify only to date.")
     
-    def toString(self) -> str:
-        fromDateStr = self.fromDate.strftime(MoveInDateRange.dateFormat) if self.fromDate != self.defaultFromDate else ""
-        toDateStr = self.toDate.strftime(MoveInDateRange.dateFormat) if self.toDate != self.defaultToDate else ""
-        return f"{fromDateStr} - {toDateStr}"
-    
     def isValidString(str: str) -> bool:
         if not "-" in str:
             return False
@@ -40,6 +35,16 @@ class MoveInDateRange:
             return False
 
         return True
+    
+    def toString(self) -> str:
+        fromDateStr = self.fromDate.strftime(MoveInDateRange.dateFormat) if self.fromDate != self.defaultFromDate else ""
+        toDateStr = self.toDate.strftime(MoveInDateRange.dateFormat) if self.toDate != self.defaultToDate else ""
+        return f"{fromDateStr} - {toDateStr}"
+    
+    def toParams(self) -> str:
+        fromDateStr = self.fromDate.strftime('%Y-%m-%d') if self.fromDate != self.defaultFromDate else ""
+        toDateStr = self.toDate.strftime('%Y-%m-%d') if self.toDate != self.defaultToDate else ""
+        return f"{fromDateStr}|{toDateStr}"
     
     def toRange(str: str):
         splittedString = str.replace(" ", "").split('-')

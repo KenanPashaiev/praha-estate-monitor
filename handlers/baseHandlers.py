@@ -27,13 +27,13 @@ async def filters(update: Update, context: ContextTypes.DEFAULT_TYPE):
     logging.log(logging.INFO, "User with ID "+str(chatId)+" is settings filters")
     await context.bot.send_message(chat_id=chatId,
                                    text="Your current filters are following:\n"+
-                                   f"*Operation type*: {filters.offerType.toString()}\n" +
-                                   f"*Estate Type*: {filters.estateType.toString()}\n" +
-                                   f"*Layout*: {filters.layout.toString()}\n" +
-                                   f"*District*: {filters.district.toString()}\n" +
-                                   f"*Price*: {filters.priceRange.toString()} CZK\n" +
-                                   f"*Area* : {filters.areaRange.toString()} m²\n" +
-                                   f"*Move in date*: {filters.moveInDateRange.toString()}\n", 
+                                   f"*{filters.offerType.label()}*: {filters.offerType.toString()}\n" +
+                                   f"*{filters.estateType.label()}*: {filters.estateType.toString()}\n" +
+                                   f"*{filters.layout.label()}*: {filters.layout.toString()}\n" +
+                                   f"*{filters.district.label()}*: {filters.district.toString()}\n" +
+                                   f"*{filters.priceRange.label()}*: {filters.priceRange.toString()} CZK\n" +
+                                   f"*{filters.areaRange.label()}*: {filters.areaRange.toString()} m²\n" +
+                                   f"*{filters.moveInDateRange.label()}*: {filters.moveInDateRange.toString()}\n", 
                                    parse_mode='markdown')
     
 async def layout(update: Update, context: ContextTypes.DEFAULT_TYPE):
