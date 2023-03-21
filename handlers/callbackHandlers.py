@@ -26,8 +26,6 @@ async def optionsCallbackBase(update: Update, context: ContextTypes.DEFAULT_TYPE
     chatId = update.effective_chat.id
     messageId = update.effective_message.id
 
-    print(call_back_data)
-
     toggleOption(chatId, optionClass(int(call_back_data)))
     replyMarkup = getReplyMarkup(chatId)
 
