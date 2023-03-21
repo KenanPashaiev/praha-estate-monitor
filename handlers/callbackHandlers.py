@@ -2,7 +2,7 @@ import re
 from telegram import Update
 from telegram.ext import ContextTypes
 
-from filterOptions import getLayoutKeyboardMarkup, getDistrictKeyboardMarkup, getOfferTypeKeyboardMarkup, getEstateTypeKeyboardMarkup
+from markupHandlers.inlineKeyboardMarkups import getLayoutKeyboardMarkup, getDistrictKeyboardMarkup, getOfferTypeKeyboardMarkup, getEstateTypeKeyboardMarkup
 from operations.filterOperations import toggleLayoutCheckbox, toggleDistrictCheckbox, toggleOfferType, toggleEstateType
 from filters.layoutFilter import LayoutFilter
 from filters.districtFilter import DistrictFilter
@@ -25,6 +25,8 @@ async def optionsCallbackBase(update: Update, context: ContextTypes.DEFAULT_TYPE
     call_back_data = re.sub("\D", "", update.callback_query.data) # remove all non-digit characters from string 
     chatId = update.effective_chat.id
     messageId = update.effective_message.id
+
+    print(call_back_data)
 
     toggleOption(chatId, optionClass(int(call_back_data)))
     replyMarkup = getReplyMarkup(chatId)

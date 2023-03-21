@@ -1,13 +1,12 @@
 from filters.districtFilter import DistrictFilter
 from filters.estateTypeFilter import EstateTypeFilter
-
 from filters.layoutFilter import LayoutFilter
 from filters.offerTypeFilter import OfferTypeFilter
-from operations.chatOperations import getChatData, updateChatData
-from entities.monitoringFilters import MonitoringFilters
 from ranges.priceRange import PriceRange
 from ranges.areaRange import AreaRange
 from ranges.moveInDateRange import MoveInDateRange
+from entities.monitoringFilters import MonitoringFilters
+from operations.chatOperations import getChatData, updateChatData
 
 def getFiltersForChat(chatId: int) -> MonitoringFilters:
     chatData = getChatData(chatId)

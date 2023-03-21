@@ -36,7 +36,8 @@ def getChatData(chatId: int) -> ChatData:
 def updateChatData(chatId: int, chatData: ChatData):
     data = readFromFile()
     for index, item in enumerate(data):
-        if item.chatId == chatId:
+        if item.chatId == str(chatId):
+            print(item.chatId == str(chatId))
             data[index] = chatData
             writeData(data)
             return

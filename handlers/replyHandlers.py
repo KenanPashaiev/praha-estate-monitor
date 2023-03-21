@@ -1,10 +1,6 @@
-import re
-import logging
-from telegram import Update, InlineKeyboardMarkup
+from telegram import Update
 from telegram.ext import ContextTypes
 
-from filterOptions import *
-from operations.chatOperations import *
 from operations.filterOperations import *
 from markupHandlers.replyKeyboardMarkups import *
 from handlers.states import *

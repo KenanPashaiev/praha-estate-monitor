@@ -1,8 +1,8 @@
 import logging
 import requests
 from telegram import InputMediaPhoto
-from entities.monitoringFilters import MonitoringFilters
 
+from entities.monitoringFilters import MonitoringFilters
 from operations.chatOperations import markEstateForChat, estateIsMarkedForChat
 
 # api-endpoint

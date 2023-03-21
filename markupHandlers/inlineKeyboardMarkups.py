@@ -1,6 +1,6 @@
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
-from operations.chatOperations import *
-from operations.filterOperations import *
+
+from operations.filterOperations import getFiltersForChat
 from filters.layoutFilter import LayoutFilter
 from filters.districtFilter import DistrictFilter
 from filters.offerTypeFilter import OfferTypeFilter
