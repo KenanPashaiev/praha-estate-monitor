@@ -1,3 +1,4 @@
+import os
 from telegram.ext import ApplicationBuilder, CommandHandler, CallbackQueryHandler, MessageHandler, ConversationHandler, filters as Filters
 
 from handlers.baseHandlers import *
@@ -43,7 +44,7 @@ conv_handler = ConversationHandler(
 
 if __name__ == '__main__':
 
-    application = ApplicationBuilder().token('5672439696:AAHKr37nDhERNhQZQMjiPplFC_Z0fK5tRuo').build()
+    application = ApplicationBuilder().token(os.getenv("API_TOKEN")).build()
     
     application.add_handler(CommandHandler("filters", filters))
     
