@@ -1,7 +1,11 @@
+import pip
+pip.main(['install', 'pytelegrambotapi'])
+
 import os
 import logging
 from telegram.ext import ApplicationBuilder, CommandHandler, CallbackQueryHandler, MessageHandler, ConversationHandler, filters as Filters
 
+from background import keep_alive
 from handlers.baseHandlers import start, filters, estateTypeOptions, offerType, layout, district
 from handlers.callbackHandlers import estateTypeOptionsCallback, EstateTypeFilter, offerTypeOptionsCallback, OfferTypeFilter, layoutOptionsCallback, LayoutFilter, districtOptionsCallback, DistrictFilter
 from handlers.promptHandlers import pricePrompt, areaPrompt, moveInDatePrompt
@@ -10,7 +14,6 @@ from monitoring.monitoring import startMonitoring, stopMonitoring
 from handlers.states import FILTERS, SETPRICE, SETAREA, SETMOVEINDATE, MONITORING
 from ranges.priceRange import PriceRange
 from ranges.areaRange import AreaRange
-from ranges.moveInDateRange import MoveInDateRange
 from ranges.moveInDateRange import MoveInDateRange
 
 logging.basicConfig(
@@ -57,5 +60,7 @@ if __name__ == '__main__':
     application.add_handler(conv_handler)
 
     application.run_polling()
+
+    keep_alive()
 
 
