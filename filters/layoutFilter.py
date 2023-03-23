@@ -16,10 +16,9 @@ class LayoutFilter(IntFlag):
     L6_1 = auto()
 
     def toString(self) -> str:
-        if self.name == None:
-            return ''
+        values = [member for member in LayoutFilter._member_names_ if member in str(self)]
+        result = ', '.join(values)
 
-        result = self.name
         result = result.replace('L6_1', '6 and more')
         result = result.replace('L', '')
         result = result.replace('_', '+')
@@ -27,18 +26,14 @@ class LayoutFilter(IntFlag):
         return result.lower()
     
     def toParams(self) -> str:
-        if self.name == None:
-            return ''
-
         flagValues = LayoutFilter._member_names_
-        values = [member for member in LayoutFilter._member_names_ if member in self.name]
+        values = [member for member in flagValues if member in str(self)]
         result = []
-
+        
         for value in values:
             result.append(str(flagValues.index(value) + 2))
 
-        result = '|'.join(result)
-        return result
+        return '|'.join(result)
     
     def equalOrContains(self, value):
         return value in self

@@ -13,19 +13,13 @@ class DistrictFilter(IntFlag):
     Praha_10 = auto()
 
     def toString(self) -> str:
-        if self.name == None:
-            return ''
-
-        result = self.name
-        result = result.replace('|', ', ')
-        result = result.replace('_', ' ')
-        return result
+        result = [member.replace('_', ' ') for member in DistrictFilter._member_names_ if member in str(self)]
+        return ', '.join(result)
     
     def toParams(self) -> str:
-        if self.name == None:
-            return ''
-
-        result = self.name
+        result = [member for member in DistrictFilter._member_names_ if member in str(self)]
+        result = '|'.join(result)
+        
         result = result.replace('Praha_10', '5010')
         result = result.replace('Praha_', '500')
         return result

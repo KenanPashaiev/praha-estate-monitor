@@ -1,4 +1,5 @@
 import logging
+import json
 import requests
 from telegram import InputMediaPhoto
 
@@ -16,7 +17,9 @@ async def fetchEstates(context, chatId, filters):
     #return
     logging.log(logging.INFO, f"Fetching estates {r.url}")
     # extracting data in json format
-    data = r.json()
+    data = r.text
+    
+    data = json.loads(data)
     unmarkedItems = [item for item in data["_embedded"]["estates"] if not estateIsMarkedForChat(chatId, item["hash_id"])]
     logging.log(logging.INFO, str(len(data["_embedded"]["estates"])) + " found estates, unmarked: " + str(len(unmarkedItems)))
     for estate in unmarkedItems[:2]:
@@ -58,6 +61,6 @@ def getEstateDescription(estate):
     text = ""
     text += "*%(name)s*\n"% estate
     text += "*%(locality)s*\n"% estate
-    text += "*%(price)s CZK*\n"% estate
+    text += "*%(price_czk)s CZK*\n"% estate
     text += "https://www.sreality.cz/ru/detail/-/-/-/-/%(hash_id)s\n"% estate
     return text

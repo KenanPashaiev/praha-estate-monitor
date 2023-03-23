@@ -1,6 +1,3 @@
-import pip
-pip.main(['install', 'pytelegrambotapi'])
-
 import os
 import logging
 from telegram.ext import ApplicationBuilder, CommandHandler, CallbackQueryHandler, MessageHandler, ConversationHandler, filters as Filters
