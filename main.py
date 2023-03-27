@@ -1,6 +1,6 @@
 import os
 import logging
-from telegram.ext import ApplicationBuilder, CommandHandler, CallbackQueryHandler, MessageHandler, ConversationHandler, filters as Filters
+from telegram.ext import ApplicationBuilder, CommandHandler, CallbackQueryHandler, MessageHandler, ConversationHandler, PicklePersistence, filters as Filters
 
 from background import keep_alive
 from handlers.baseHandlers import start, filters, estateTypeOptions, offerType, layout, district
@@ -41,11 +41,14 @@ conv_handler = ConversationHandler(
             MONITORING: [MessageHandler(Filters.Regex("Stop monitoring"), stopMonitoring)]
         },
         fallbacks=[CommandHandler("cancel", start)],
+        name="my_conversation",
+        persistent=True,
     )
 
 if __name__ == '__main__':
 
-    application = ApplicationBuilder().token(os.getenv("API_TOKEN")).build()
+    persistence = PicklePersistence(filepath="conversationbot")
+    application = ApplicationBuilder().token(os.getenv("API_TOKEN")).persistence(persistence).build()
     
     application.add_handler(CommandHandler("filters", filters))
     
