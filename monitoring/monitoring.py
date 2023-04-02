@@ -5,7 +5,6 @@ from telegram.ext import ContextTypes
 
 from handlers.states import MONITORING, FILTERS
 from handlers.baseHandlers import filterReplyMarkup
-from operations.chatOperations import getChatsWithEnabledMonitors
 from operations.filterOperations import getFiltersForChat
 from monitoring.srealityClient import fetchEstates
 

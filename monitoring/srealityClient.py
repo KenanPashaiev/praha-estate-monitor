@@ -12,7 +12,7 @@ URL = "https://www.sreality.cz/api/ru/v2/estates"
 async def fetchEstates(context, chatId, filters):
     PARAMS = filterToParams(filters)
     # sending get request and saving the response as response object
-    r = requests.get(url=URL, params=PARAMS)
+    r = requests.get(url=URL, params=PARAMS, headers={'User-Agent': 'stupid-fix'})
 
     #return
     logging.log(logging.INFO, f"Fetching estates {r.url}")
@@ -30,7 +30,7 @@ async def notifyChat(context, chatId, estate):
     logging.log(logging.INFO, str(estate["hash_id"]) + " estate notification was sent to " + str(chatId))
     text = getEstateDescription(estate)
 
-    details = requests.get(url=URL+"/%(hash_id)s"% estate).json()
+    details = requests.get(url=URL+"/%(hash_id)s"% estate, headers={'User-Agent': 'stupid-fix'}).json()
     images = details["_embedded"]["images"]
 
     media_group = []
@@ -61,6 +61,6 @@ def getEstateDescription(estate):
     text = ""
     text += "*%(name)s*\n"% estate
     text += "*%(locality)s*\n"% estate
-    text += "*%(price_czk)s CZK*\n"% estate
+    text += "*%(price)s CZK*\n"% estate
     text += "https://www.sreality.cz/ru/detail/-/-/-/-/%(hash_id)s\n"% estate
     return text

@@ -1,4 +1,3 @@
-import asyncio
 import os
 import logging
 from telegram.ext import ApplicationBuilder, CommandHandler, CallbackQueryHandler, MessageHandler, ConversationHandler, PicklePersistence, filters as Filters
