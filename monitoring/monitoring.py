@@ -5,6 +5,7 @@ from telegram.ext import ContextTypes
 
 from handlers.states import MONITORING, FILTERS
 from handlers.baseHandlers import filterReplyMarkup
+from operations.chatOperations import getChatsWithEnabledMonitors
 from operations.filterOperations import getFiltersForChat
 from monitoring.srealityClient import fetchEstates
 
@@ -27,7 +28,11 @@ async def startMonitoring(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def stopMonitoring(update: Update, context: ContextTypes.DEFAULT_TYPE):
     chatId = update.effective_chat.id
-    tasks[chatId].cancel()
+    try:
+        tasks[chatId].cancel()
+    except:
+        pass
+
     await context.bot.send_message(chat_id=chatId, 
                                    text="Stopped monitoring\n", 
                                    reply_markup=filterReplyMarkup)

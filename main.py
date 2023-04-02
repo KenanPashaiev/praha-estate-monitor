@@ -1,3 +1,4 @@
+import asyncio
 import os
 import logging
 from telegram.ext import ApplicationBuilder, CommandHandler, CallbackQueryHandler, MessageHandler, ConversationHandler, PicklePersistence, filters as Filters
@@ -42,23 +43,21 @@ conv_handler = ConversationHandler(
         },
         fallbacks=[CommandHandler("cancel", start)],
         name="my_conversation",
-        persistent=True,
+        persistent=True
     )
 
 if __name__ == '__main__':
 
     persistence = PicklePersistence(filepath="conversationbot")
     application = ApplicationBuilder().token(os.getenv("API_TOKEN")).persistence(persistence).build()
-    
+
+    # application.add_handler(CommandHandler("start", start))
     application.add_handler(CommandHandler("filters", filters))
-    
     application.add_handler(CallbackQueryHandler(estateTypeOptionsCallback, EstateTypeFilter.label()))
     application.add_handler(CallbackQueryHandler(offerTypeOptionsCallback, OfferTypeFilter.label()))
     application.add_handler(CallbackQueryHandler(layoutOptionsCallback, LayoutFilter.label()))
     application.add_handler(CallbackQueryHandler(districtOptionsCallback, DistrictFilter.label()))
-
     application.add_handler(conv_handler)
-
     application.run_polling()
 
     keep_alive()

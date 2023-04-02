@@ -6,10 +6,12 @@ from operations.chatOperations import startNewChat
 from operations.filterOperations import getFiltersForChat, LayoutFilter, DistrictFilter, OfferTypeFilter, EstateTypeFilter
 from markupHandlers.replyKeyboardMarkups import filterReplyMarkup
 from markupHandlers.inlineKeyboardMarkups import getLayoutKeyboardMarkup, getDistrictKeyboardMarkup, getOfferTypeKeyboardMarkup, getEstateTypeKeyboardMarkup
+from monitoring.monitoring import stopMonitoring
 from handlers.states import FILTERS
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     chatId = update.effective_chat.id
+    stopMonitoring(update, context)
     logging.log(logging.INFO, f"Chat '{str(chatId)}' started interacting with the bot")
     startNewChat(str(update.effective_chat.id))
 
@@ -21,6 +23,10 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
 async def filters(update: Update, context: ContextTypes.DEFAULT_TYPE):
     chatId = update.effective_chat.id
     filters = getFiltersForChat(chatId)
+
+    if(filters == None):
+        await context.bot.send_message(chat_id=chatId, text="Please start the bot first using /start command.")
+        return
 
     logging.log(logging.INFO, "User with ID "+str(chatId)+" is settings filters")
     await context.bot.send_message(chat_id=chatId,

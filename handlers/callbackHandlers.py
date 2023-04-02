@@ -1,6 +1,7 @@
 import re
 from telegram import Update
 from telegram.ext import ContextTypes
+import logging
 
 from markupHandlers.inlineKeyboardMarkups import getLayoutKeyboardMarkup, getDistrictKeyboardMarkup, getOfferTypeKeyboardMarkup, getEstateTypeKeyboardMarkup
 from operations.filterOperations import toggleLayoutCheckbox, toggleDistrictCheckbox, toggleOfferType, toggleEstateType
@@ -29,5 +30,10 @@ async def optionsCallbackBase(update: Update, context: ContextTypes.DEFAULT_TYPE
     toggleOption(chatId, optionClass(int(call_back_data)))
     replyMarkup = getReplyMarkup(chatId)
 
-    await context.bot.edit_message_reply_markup(chatId, messageId, reply_markup=replyMarkup)
+    try:
+        await context.bot.edit_message_reply_markup(chatId, messageId, reply_markup=replyMarkup)
+    except Exception as err:
+        logging.error(err)
+        return
+
 
