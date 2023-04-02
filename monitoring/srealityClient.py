@@ -28,9 +28,9 @@ async def fetchEstates(context, chatId, filters):
 
 async def notifyChat(context, chatId, estate):
     logging.log(logging.INFO, str(estate["hash_id"]) + " estate notification was sent to " + str(chatId))
-    text = getEstateDescription(estate)
 
     details = requests.get(url=URL+"/%(hash_id)s"% estate, headers={'User-Agent': 'stupid-fix'}).json()
+    text = getEstateDescription(details)
     images = details["_embedded"]["images"]
 
     media_group = []
@@ -59,8 +59,9 @@ def filterToParams(monitoringFilters: MonitoringFilters):
 
 def getEstateDescription(estate):
     text = ""
-    text += "*%(name)s*\n"% estate
-    text += "*%(locality)s*\n"% estate
-    text += "*%(price)s CZK*\n"% estate
-    text += "https://www.sreality.cz/ru/detail/-/-/-/-/%(hash_id)s\n"% estate
+    text += estate["name"]["value"] + "\n"
+    text += estate["locality"]["value"] + "\n"
+    text += estate["price_czk"]["value"] + "\n"
+    text += [x for x in estate["items"] if x.name == "\u0414\u0430\u0442\u0430 \u0437\u0430\u0441\u0435\u043b\u0435\u043d\u0438\u044f"]["value"] + "\n"
+    text += "[Go to Sreality.cz](https://www.sreality.cz/ru/detail/-/-/-/-/%(hash_id)s)\n"% estate
     return text
