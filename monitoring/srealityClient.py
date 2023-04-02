@@ -7,7 +7,7 @@ from entities.monitoringFilters import MonitoringFilters
 from operations.chatOperations import markEstateForChat, estateIsMarkedForChat
 
 # api-endpoint
-URL = "https://www.sreality.cz/api/ru/v2/estates"
+URL = "https://www.sreality.cz/api/en/v2/estates"
 
 async def fetchEstates(context, chatId, filters):
     PARAMS = filterToParams(filters)
@@ -27,10 +27,12 @@ async def fetchEstates(context, chatId, filters):
 
 
 async def notifyChat(context, chatId, estate):
-    logging.log(logging.INFO, str(estate["hash_id"]) + " estate notification was sent to " + str(chatId))
+    estateIdStr = str(estate["hash_id"])
+    logging.log(logging.INFO, estateIdStr + " estate notification was sent to " + str(chatId))
 
-    details = requests.get(url=URL+"/%(hash_id)s"% estate, headers={'User-Agent': 'stupid-fix'}).json()
-    text = getEstateDescription(details)
+    details = requests.get(url=URL+f"/{estateIdStr}", headers={'User-Agent': 'stupid-fix'}).json()
+    text = getEstateDescription(details, estateIdStr)
+    print(text)
     images = details["_embedded"]["images"]
 
     media_group = []
@@ -40,8 +42,8 @@ async def notifyChat(context, chatId, estate):
         i += 1
 
     await context.bot.send_media_group(chat_id = chatId, media = media_group)
-    markEstateForChat(chatId, estate["hash_id"])
-    logging.log(logging.INFO, str(estate["hash_id"]) + " estate was marked for chat " + str(chatId))
+    markEstateForChat(chatId, estateIdStr)
+    logging.log(logging.INFO, estateIdStr + " estate was marked for chat " + str(chatId))
 
 def filterToParams(monitoringFilters: MonitoringFilters):
     return {
@@ -57,11 +59,17 @@ def filterToParams(monitoringFilters: MonitoringFilters):
         "ready_date": monitoringFilters.moveInDateRange.toParams(),
     }
 
-def getEstateDescription(estate):
+def getEstateDescription(estate, id):
+    name = estate["name"]["value"]
+    locality = estate["locality"]["value"]
+    price = estate["price_czk"]["value"]
+    moveInDate = [x for x in estate["items"] if x["name"] == "Move-in date"][0]["value"]
+
     text = ""
-    text += estate["name"]["value"] + "\n"
-    text += estate["locality"]["value"] + "\n"
-    text += estate["price_czk"]["value"] + "\n"
-    text += [x for x in estate["items"] if x.name == "\u0414\u0430\u0442\u0430 \u0437\u0430\u0441\u0435\u043b\u0435\u043d\u0438\u044f"]["value"] + "\n"
-    text += "[Go to Sreality.cz](https://www.sreality.cz/ru/detail/-/-/-/-/%(hash_id)s)\n"% estate
+    text += f"*{name}* \n"
+    text += f"Location: *{locality}* \n"
+    text += f"Price: *{price}* CZK \n"
+    text += f"Move in date: *{moveInDate}* \n"
+    text += f"[Go to Sreality.cz](https://www.sreality.cz/ru/detail/-/-/-/-/{id} \n"
     return text
+
