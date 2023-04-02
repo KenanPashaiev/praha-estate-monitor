@@ -32,7 +32,6 @@ async def notifyChat(context, chatId, estate):
 
     details = requests.get(url=URL+f"/{estateIdStr}", headers={'User-Agent': 'stupid-fix'}).json()
     text = getEstateDescription(details, estateIdStr)
-    print(text)
     images = details["_embedded"]["images"]
 
     media_group = []
@@ -42,7 +41,7 @@ async def notifyChat(context, chatId, estate):
         i += 1
 
     await context.bot.send_media_group(chat_id = chatId, media = media_group)
-    markEstateForChat(chatId, estateIdStr)
+    markEstateForChat(chatId, int(estateIdStr))
     logging.log(logging.INFO, estateIdStr + " estate was marked for chat " + str(chatId))
 
 def filterToParams(monitoringFilters: MonitoringFilters):
