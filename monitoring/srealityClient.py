@@ -57,6 +57,7 @@ def filterToParams(monitoringFilters: MonitoringFilters):
         "czk_price_summary_order2": monitoringFilters.priceRange.toParams(),
         "usable_area": monitoringFilters.areaRange.toParams(),
         "ready_date": monitoringFilters.moveInDateRange.toParams(),
+        "per_page": 999
     }
 
 def getEstateDescription(estate, id):
