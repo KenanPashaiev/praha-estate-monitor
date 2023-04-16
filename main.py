@@ -7,7 +7,7 @@ from handlers.baseHandlers import start, filters, estateTypeOptions, offerType, 
 from handlers.callbackHandlers import estateTypeOptionsCallback, EstateTypeFilter, offerTypeOptionsCallback, OfferTypeFilter, layoutOptionsCallback, LayoutFilter, districtOptionsCallback, DistrictFilter
 from handlers.promptHandlers import pricePrompt, areaPrompt, moveInDatePrompt
 from handlers.replyHandlers import priceReply, areaReply, moveInDateReply
-from monitoring.monitoring import startMonitoring, stopMonitoring
+from monitoring.monitoring import initializeMonitors, startMonitoring, stopMonitoring
 from handlers.states import FILTERS, SETPRICE, SETAREA, SETMOVEINDATE, MONITORING
 from ranges.priceRange import PriceRange
 from ranges.areaRange import AreaRange
@@ -47,10 +47,12 @@ conv_handler = ConversationHandler(
 
 if __name__ == '__main__':
 
-    persistence = PicklePersistence(filepath="conversationbot")
-    application = ApplicationBuilder().token(os.getenv("API_TOKEN")).persistence(persistence).build()
+    token = os.getenv("API_TOKEN")
 
-    # application.add_handler(CommandHandler("start", start))
+    initializeMonitors(token)
+
+    persistence = PicklePersistence(filepath="conversationbot")
+    application = ApplicationBuilder().token(token).persistence(persistence).build()
     application.add_handler(CommandHandler("filters", filters))
     application.add_handler(CallbackQueryHandler(estateTypeOptionsCallback, EstateTypeFilter.label()))
     application.add_handler(CallbackQueryHandler(offerTypeOptionsCallback, OfferTypeFilter.label()))
@@ -60,5 +62,3 @@ if __name__ == '__main__':
     application.run_polling()
 
     keep_alive()
-
-

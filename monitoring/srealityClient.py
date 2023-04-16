@@ -1,7 +1,7 @@
 import logging
 import json
 import requests
-from telegram import InputMediaPhoto
+from telegram import Bot, InputMediaPhoto
 
 from entities.monitoringFilters import MonitoringFilters
 from operations.chatOperations import markEstateForChat, estateIsMarkedForChat
@@ -9,7 +9,7 @@ from operations.chatOperations import markEstateForChat, estateIsMarkedForChat
 # api-endpoint
 URL = "https://www.sreality.cz/api/en/v2/estates"
 
-async def fetchEstates(context, chatId, filters):
+async def fetchEstates(bot, chatId, filters):
     PARAMS = filterToParams(filters)
     # sending get request and saving the response as response object
     r = requests.get(url=URL, params=PARAMS, headers={'User-Agent': 'stupid-fix'})
@@ -23,10 +23,10 @@ async def fetchEstates(context, chatId, filters):
     unmarkedItems = [item for item in data["_embedded"]["estates"] if not estateIsMarkedForChat(chatId, item["hash_id"])]
     logging.log(logging.INFO, str(len(data["_embedded"]["estates"])) + " found estates, unmarked: " + str(len(unmarkedItems)))
     for estate in unmarkedItems[:2]:
-        await notifyChat(context, chatId, estate)
+        await notifyChat(bot, chatId, estate)
 
 
-async def notifyChat(context, chatId, estate):
+async def notifyChat(bot: Bot, chatId, estate):
     estateIdStr = str(estate["hash_id"])
     logging.log(logging.INFO, estateIdStr + " estate notification was sent to " + str(chatId))
 
@@ -40,7 +40,8 @@ async def notifyChat(context, chatId, estate):
         media_group.append(InputMediaPhoto(image["_links"]["self"]["href"], caption = text if i == 0 else '', parse_mode="markdown"))
         i += 1
 
-    await context.bot.send_media_group(chat_id = chatId, media = media_group)
+    print("sho")
+    await bot.send_media_group(chat_id = chatId, media = media_group)
     markEstateForChat(chatId, int(estateIdStr))
     logging.log(logging.INFO, estateIdStr + " estate was marked for chat " + str(chatId))
 

@@ -28,7 +28,7 @@ def getDistrictKeyboardMarkup(chatId: int) -> InlineKeyboardMarkup:
         [ DistrictFilter.Praha_3, DistrictFilter.Praha_4 ],
         [ DistrictFilter.Praha_5, DistrictFilter.Praha_6 ],
         [ DistrictFilter.Praha_7, DistrictFilter.Praha_8 ],
-        [ DistrictFilter.Praha_9, DistrictFilter.Praha_10 ]
+        [ DistrictFilter.Praha_9, DistrictFilter.Praha__10 ]
     ]
 
     return InlineKeyboardMarkup(applyOptions(arr, filters.district))

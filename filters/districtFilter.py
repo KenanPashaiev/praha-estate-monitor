@@ -10,10 +10,10 @@ class DistrictFilter(IntFlag):
     Praha_7 = auto()
     Praha_8 = auto()
     Praha_9 = auto()
-    Praha_10 = auto()
+    Praha__10 = auto()
 
     def toString(self) -> str:
-        result = [member.replace('_', ' ') for member in DistrictFilter._member_names_ if member in str(self)]
+        result = [member.replace('__',' ').replace('_', ' ') for member in DistrictFilter._member_names_ if member in str(self)]
         return ', '.join(result)
     
     def toParams(self) -> str:

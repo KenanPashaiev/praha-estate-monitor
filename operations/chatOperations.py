@@ -18,17 +18,25 @@ def markEstateForChat(chatId: int, estateId: int):
 
 def estateIsMarkedForChat(chatId: int, estateId: int) -> bool:
     chatData = getChatData(chatId)
-    if estateId in chatData.properties:
-        logging.log(logging.INFO, f"{str(estateId)} estate already marked for chat {str(chatId)}")
 
     return estateId in chatData.properties
+
+def setIsMonitoringForChat(chatId: int, isMonitoring: bool):
+    chatData = getChatData(chatId)
+    chatData.isMonitoring = isMonitoring
+    updateChatData(chatId, chatData)
+
+def getMonitoredChats():
+    data = readFromFile()
+    for item in data:
+        if item.isMonitoring:
+            yield item
 
 def getChatData(chatId: int) -> ChatData:
     data = readFromFile()
     chatData = None
     for item in data:
         if item.chatId == str(chatId):
-            # logging.log(logging.INFO, f"Chat '{str(chatId)}' found, loading.")
             chatData = item
 
     return chatData
